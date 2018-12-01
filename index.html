@@ -1,28 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
+    <title>Chat</title>
     <meta charset="UTF-8">
-    <title>Test WS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        form {
+            background: #a48eff;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 90%;
+            margin-right: .5%;
+        }
+
+        form button {
+            width: 9%;
+            background: rgb(195, 112, 3);
+            border: none;
+            padding: 10px;
+            color: #fff;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
+    </style>
 </head>
 <body>
-<p id="msgText"></p>
-<p id="msgNb"></p>
-<p id="msgBool"></p>
-<label for="text">Text</label>
-<input id="text" type="text"/>
-<button id="btn">Send to socket</button>
+
+<ul id="messages"></ul>
+<form id="form" action="">
+    <input id="text" type="text" autocomplete="off"/>
+    <button>Send</button>
+</form>
 
 <script type="text/javascript">
     ws = new WebSocket("ws://localhost:5555/ws/");
     ws.onopen = (e) => {
         console.log('Connection établie');
-        document.getElementById('btn').addEventListener('click', (ev) => {
+        document.getElementById('form').addEventListener('submit', (ev) => {
             ev.preventDefault();
             console.log('Send to socket');
             const data = {
                 "text": document.getElementById('text').value,
-                "nb": 126,
-                "bool": true,
             };
             ws.send(JSON.stringify(data));
         })
@@ -30,9 +76,9 @@
     ws.onmessage = (e) => {
         const msg = JSON.parse(e.data);
         console.log('Message received :', msg);
-        document.getElementById('msgText').innerHTML = `${msg["text"]}`;
-        document.getElementById('msgNb').innerHTML = `${msg["nb"]}`;
-        document.getElementById('msgBool').innerHTML = `${msg["bool"]}`;
+        const li = document.createElement("li");
+        li.innerText = msg["text"];
+        document.getElementById('messages').appendChild(li);
     };
     ws.onclose = (e) => {
         console.log('Connection closed');

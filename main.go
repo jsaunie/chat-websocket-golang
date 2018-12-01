@@ -26,20 +26,17 @@ func connHandler(ws *websocket.Conn) {
 		}
 		fmt.Printf("Server receive : %v\n", data)
 		fmt.Printf(
-			"Types received : %s - %s - %s\n",
+			"Types received : %s\n",
 			reflect.TypeOf(data["text"]),
-			reflect.TypeOf(data["nb"]),
-			reflect.TypeOf(data["bool"]),
 		)
-		data["text"] = "Bien reçu"
-		data["nb"] = 789
-		data["bool"] = false
-
 		err2 := websocket.JSON.Send(ws, data)
 		if err2 != nil {
 			fmt.Println(err2)
 			break
 		}
 	}
-	ws.Close()
+	err3 := ws.Close()
+	if err3 != nil {
+		fmt.Println(err3)
+	}
 }
