@@ -1,46 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <title>Test WS</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test WS</title>
 </head>
 <body>
-<p id="msgText"></p>
-<p id="msgNb"></p>
-<p id="msgBool"></p>
-<label for="text">Text</label>
-<input id="text" type="text"/>
-<button id="btn">Send to socket</button>
+  <p id="msgText"></p>
+  <p id="msgNb"></p>
+  <p id="msgBool"></p>
 
-<script type="text/javascript">
-    ws = new WebSocket("ws://localhost:5555/ws/");
+  <label for="text">Text</label>
+  <input id="text" type="text">
+  <button id="btn">Send to socket</button>
+
+  <script type="text/javascript">
+    ws = new WebSocket("ws://localhost:5555/ws/")
+
     ws.onopen = (e) => {
-        console.log('Connection établie');
-        document.getElementById('btn').addEventListener('click', (ev) => {
-            ev.preventDefault();
-            console.log('Send to socket');
-            const data = {
-                "text": document.getElementById('text').value,
-                "nb": 126,
-                "bool": true,
-            };
-            ws.send(JSON.stringify(data));
-        })
-    };
+      console.log("Connection établie")
+      document.getElementById("btn").addEventListener("click", (ev) => {
+        ev.preventDefault()
+        console.log("Send to socket")
+        const data = {
+          "text": document.getElementById("text").value,
+          "nb": 126,
+          "bool": true,
+        }
+        ws.send(JSON.stringify(data))
+      })
+    }
+
     ws.onmessage = (e) => {
-        const msg = JSON.parse(e.data);
-        console.log('Message received :', msg);
-        document.getElementById('msgText').innerHTML = `${msg["text"]}`;
-        document.getElementById('msgNb').innerHTML = `${msg["nb"]}`;
-        document.getElementById('msgBool').innerHTML = `${msg["bool"]}`;
-    };
+      const msg = JSON.parse(e.data)
+      console.log("Message received :", msg)
+      document.getElementById("msgText").innerHTML = `${msg["text"]}`
+      document.getElementById("msgNb").innerHTML = `${msg["nb"]}`
+      document.getElementById("msgBool").innerHTML = `${msg["bool"]}`
+    }
+
     ws.onclose = (e) => {
-        console.log('Connection closed');
-        delete ws;
-    };
+      console.log("Connection closed")
+      delete ws;
+    }
+
     ws.onerror = (e) => {
-        console.error('Error :', e);
-    };
-</script>
+      console.error(`Error !\n${e}`)
+    }
+  </script>
 </body>
 </html>
