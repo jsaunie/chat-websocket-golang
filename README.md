@@ -1,11 +1,12 @@
-**Golang websocket connection** 
+# Goland websocket handler
 
-**Start connection** `go run main.go`.
+**To start a connection just run the following command**  
+`go run main.go`.
 
-The websocket connection use port `5555`.
+The websocket connection use the `5555` port.
 
-Open the `index.html` file in your favorite browser.
+Just open the `index.html` file in your favorite browser.
 
-You are on the branch `master`, that have a simple websocket connection.
+You are on `master` branch, that only contains a simple websocket connection.
 
-You can switch to the branch `Chat`, that have a simple chat feature.
+Switching to the `chat` branch will allow you access to a simple chat feature.
